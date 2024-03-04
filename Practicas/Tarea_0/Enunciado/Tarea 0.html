@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!-- saved from url=(0088)https://swad.ugr.es/swad/tmp/eB/AtZOSPzHvwVBz7v6r7FwCWus70Ae7D_ePI-IEN2U0/Tarea%200.html -->
+<html lang="es" data-lt-installed="true"><link type="text/css" rel="stylesheet" id="dark-mode-custom-link"><link type="text/css" rel="stylesheet" id="dark-mode-general-link"><style lang="en" type="text/css" id="dark-mode-custom-style"></style><style lang="en" type="text/css" id="dark-mode-native-style"></style><style lang="en" type="text/css" id="dark-mode-native-sheet"></style><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<title>Tarea 0</title>
+	<link href="./Tarea 0_files/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="./Tarea 0_files/prism.min.css">
+	<script src="./Tarea 0_files/prism.js"></script>
+ 	<script src="./Tarea 0_files/prism-javascript.min.js"></script>
+ 	<script src="./Tarea 0_files/prism-bash.min.js"></script>
+ 	<script src="./Tarea 0_files/prism-markup.min.js"></script>
+	<script src="./Tarea 0_files/prism-yaml.min.js"></script>
+ 	<style>
+		body {
+			padding-top: 3em;
+		}
+		p {
+			padding-top: 0.2em;
+			text-indent: 0.0em;
+			text-align: justify;
+		}
+
+		h1, h2 {
+			padding-top: 2em;
+		}
+		h3, h4 {
+			padding-top: 1em;
+		}
+		h2 {
+			padding-bottom: 0em;
+		}
+		.grey {
+			color: grey;
+		}
+		a {
+			text-decoration: none;
+		}
+
+	</style>
+</head>
+<body>
+	<img src="./Tarea 0_files/curso-gratis-backend-node-js-express.jpg" alt="" style="width:80vw; height:20em;margin-left: auto; margin-right: auto; display:block">
+
+	<div class="container">
+
+		<h2>Tarea 0</h2>
+		<h3><strong>Hola mundo con node, express y nunjucks</strong></h3>
+		<br>
+		<p>
+			Empezaremos haciendo una 
+			<i>'<a href="https://www.arquitecturajava.com/spa-vs-mpa-y-las-arquitecturas-web/">Multiple Page Application</a>'</i>
+			usando <code> Node.js</code>, el framework 
+			<a href="https://expressjs.com/">Express</a>, y  
+			<a href="https://mozilla.github.io/nunjucks/">Nunjucks</a> como <a href="https://keepcoding.io/blog/que-son-los-template-engines/">motor de 
+			plantillas</a>.
+		</p>
+		<p>
+			Seguiremos <a href="https://dev.to/kelvinvmwinuka/how-to-set-up-nunjucks-with-expressjs-lbp">How to Set Up Nunjucks with ExpressJS </a>.
+		</p>
+		<p>
+			Empezamos creando un directorio para la aplicación y creando el archivo <b>package.json</b>:
+			</p><pre class=" language-bash"><code class=" language-bash" data-lang="bash"><span class="token operator">&gt;</span> npm init <span class="token punctuation">.</span></code></pre>
+		<p></p>
+		<p>
+			Instalamos las dependencias:
+			</p><pre class=" language-bash"><code class=" language-bash" data-trim=""><span class="token operator">&gt;</span> npm i express nunjucks dotenv</code></pre>
+			incluimos <code>dotenv</code> para leer archivos <b>.env</b> con variables de entorno.
+		<p></p>
+		<p>
+			Y ponemos el código de la aplicación, en el que usaremos <a href="https://tsmx.net/convert-existing-nodejs-project-from-commonjs-to-esm/">
+				ES6 módulos</a> en lugar de los CommonJS, ya que es un proyecto nuevo.
+				</p><div class="lead small" style="font-size: small;">
+				(<a href="https://stackoverflow.com/questions/70691479/is-commonjs-require-still-used-or-deprecated">
+					is-commonjs-require-still-used-or-deprecated ?
+				</a>)
+				</div>
+			<pre class=" language-javascript"><code class=" language-javascript" data-trim=""><span class="token comment" spellcheck="true">// app.js</span>
+<span class="token keyword">import</span> express from <span class="token string">'express'</span>
+<span class="token keyword">import</span> nunjucks from <span class="token string">'nunjucks'</span>
+
+<span class="token keyword">import</span> <span class="token operator">*</span> as dotenv from <span class="token string">'dotenv'</span>
+dotenv<span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> IN   <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>IN            <span class="token comment" spellcheck="true">// 'development' or 'production'</span>
+<span class="token keyword">const</span> PORT <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>PORT
+
+<span class="token keyword">var</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+			
+nunjucks<span class="token punctuation">.</span><span class="token function">configure</span><span class="token punctuation">(</span><span class="token string">'views'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>         <span class="token comment" spellcheck="true">// directorio 'views' para los templates html</span>
+	autoescape<span class="token punctuation">:</span> <span class="token keyword">true</span><span class="token punctuation">,</span>
+	noCache<span class="token punctuation">:</span>    IN <span class="token operator">==</span> <span class="token string">'development'</span><span class="token punctuation">,</span>
+	watch<span class="token punctuation">:</span>      IN <span class="token operator">==</span> <span class="token string">'development'</span><span class="token punctuation">,</span>
+	express<span class="token punctuation">:</span> app
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+			
+app<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token string">'view engine'</span><span class="token punctuation">,</span> <span class="token string">'html'</span><span class="token punctuation">)</span>
+						
+app<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+	res<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token string">'home.html'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+			
+app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span>PORT<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+	console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>`Listening on port $<span class="token punctuation">{</span>PORT<span class="token punctuation">}</span> <span class="token keyword">in</span> $<span class="token punctuation">{</span>IN<span class="token punctuation">}</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>`<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>	
+		<p></p>
+	    <p>
+			Y en el archivo <b>.env</b>
+</p><pre class=" language-bash"><code class=" language-bash" data-trim="">IN<span class="token operator">=</span>development
+PORT<span class="token operator">=</span><span class="token number">3000</span></code></pre>
+		<p></p>
+		<p>
+			Para una mejor <a href="https://github.blog/2023-06-08-developer-experience-what-is-it-and-why-should-you-care/">
+				Developer experience</a>, es muy conveniente instalar 
+				<a href="https://thinkster.io/tutorials/node-json-api/initializing-a-starter-node-project">nodemon</a> para reniciar 
+				automáticamente el servidor al hacer cambios en el código.
+		</p>
+		
+		<h3>Testing</h3>
+		<p>
+			Para el testig podemos utilizar las librerías <a href="https://mochajs.org/">Mocha</a> y 
+			<a href="https://www.chaijs.com/">Chai</a> como en
+			<a href="https://semaphoreci.com/community/tutorials/getting-started-with-node-js-and-mocha">
+				Getting Started with Node.js and Mocha</a>. 
+			
+
+		</p>
+
+	<p>
+		</p><h4>Referencias:</h4>
+		<ul>
+			<li><a href="https://mozilla.github.io/nunjucks/api.html#configure">nunjucks configure</a></li>
+			<li><a href="https://jinja.palletsprojects.com/en/3.1.x/templates/">Templating synopsys</a> </li>		
+		</ul>
+	<p></p>
+
+
+	<br><br>	
+	</div>
+
+
+<deepl-input-controller><template shadowrootmode="open"><link rel="stylesheet" href="chrome-extension://cofdbpoegempjloogbagkncekinflcnj/build/content.css"><div><div class="dl-input-translation-container svelte-ju4595"><div></div></div></div></template></deepl-input-controller></body></html>
