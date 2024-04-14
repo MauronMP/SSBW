@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{ title }}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <a href="/"><header class="bg-blue-900 text-white py-5 text-center text-xl">P_3 Pablo Morenilla Pinos</header></a>
+
+    <div class="flex-1 flex flex-col sm:flex-row">
+      <main class="flex-1 bg-blue-100 p-4">
+        {% block content %}
+          <div class="flex items-center justify-center h-full">
+            <p class="text-2xl font-semibold text-red-600">{{ content }}</p>
+          </div>
+        {% endblock %}
+      </main>
+
+      <nav class="order-first sm:w-32 bg-blue-200 flex flex-col items-start p-1">
+        <a href="/" class="button mb-2">Admins</a>
+        <a href="/usuarios/con-email/de/COM" class="button mb-2">COM</a>
+        <a href="/usuarios/con-email/de/EDU" class="button mb-2">EDU</a>
+        <a href="/p_3_1" class="button mb-2">P_3_1</a>
+      </nav>
+
+      <aside class="sm:w-32 bg-blue-200"></aside>
+    </div>
+
+    <footer class="bg-blue-900 text-white py-5 text-center">Github: MauronMP SSBW</footer>
+
+    <script src="" async defer></script>
+  </body>
+</html>
