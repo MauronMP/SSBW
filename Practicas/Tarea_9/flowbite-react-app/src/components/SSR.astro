@@ -1,0 +1,14 @@
+---
+// src/components/SSR.astro
+const { dog } = Astro.props;
+---
+
+<div>
+  <h1>Server Side Rendering</h1>
+  <img src={dog} alt="A Random Dog" />
+  <button>
+    <a href="/ssr">
+      ¡Otro!
+    </a>
+  </button>
+</div>
